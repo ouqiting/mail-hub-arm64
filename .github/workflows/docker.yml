@@ -10,8 +10,9 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Existing release tag to rebuild (e.g. v0.9.9)'
-        required: true
+        description: 'Existing release tag to rebuild (e.g. v0.11.8)'
+        required: false
+        default: 'v0.11.8'
 
 concurrency:
   group: docker-${{ inputs.tag || github.ref }}
@@ -68,7 +69,7 @@ jobs:
       - uses: docker/build-push-action@v6
         with:
           context: .
-          platforms: linux/amd64
+          platforms: linux/arm64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
